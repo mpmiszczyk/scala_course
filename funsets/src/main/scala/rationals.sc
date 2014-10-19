@@ -7,17 +7,16 @@ object rationals{
 
   x.substract(y).substract(z)
 
-
+  y.add(y)
 }
 
 
 class Rational (x: Int, y: Int) {
-  def numerator = x
-  def denominator =  y
+  val numerator = x / gcd(x,y)
+  val denominator =  y / gcd(x,y)
 
   override def toString =
     numerator + "/"  + denominator
-
   def add(that: Rational): Rational =
     new Rational(
       (numerator * that.denominator) + (that.numerator * denominator),
@@ -28,5 +27,10 @@ class Rational (x: Int, y: Int) {
 
   def substract(that: Rational): Rational =
     add(that.neg)
+
+  private def gcd(x: Int, y: Int): Int = {
+    if (y == 0) x
+    else gcd(y, x % y)
+  }
 
 }
