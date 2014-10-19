@@ -9,7 +9,8 @@ object rationals{
 
   y.add(y)
 
-  val strange = new Rational(3,0)
+  new Rational(3)
+
 
 }
 
@@ -19,6 +20,8 @@ class Rational (x: Int, y: Int) {
 
   val numerator = x / gcd(x,y)
   val denominator =  y / gcd(x,y)
+
+  def this(x: Int) = this(x, 1)
 
   override def toString =
     numerator + "/"  + denominator
