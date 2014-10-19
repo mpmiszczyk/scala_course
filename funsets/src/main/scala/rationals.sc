@@ -8,10 +8,15 @@ object rationals{
   x.substract(y).substract(z)
 
   y.add(y)
+
+  val strange = new Rational(3,0)
+
 }
 
 
 class Rational (x: Int, y: Int) {
+  require(y != 0, "demoninator must be non zero")
+
   val numerator = x / gcd(x,y)
   val denominator =  y / gcd(x,y)
 
