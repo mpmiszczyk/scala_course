@@ -33,4 +33,10 @@ class Rational (x: Int, y: Int) {
     else gcd(y, x % y)
   }
 
+  def less(that: Rational): Boolean =
+    numerator * that.denominator < that.numerator * denominator
+
+  def max(that: Rational): Rational =
+    if (less(that)) that
+    else this
 }
