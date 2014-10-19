@@ -23,10 +23,10 @@ class Rational (x: Int, y: Int) {
       (numerator * that.denominator) + (that.numerator * denominator),
       denominator * that.denominator )
 
-  def neg() =
+  def neg: Rational =
     new Rational(-numerator, denominator)
 
   def substract(that: Rational): Rational =
-    add(that.neg())
+    add(that.neg)
 
 }
