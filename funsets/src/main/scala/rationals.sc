@@ -3,17 +3,15 @@ object rationals{
   val y = new Rational(5,7)
   val z = new Rational(3,2)
 
-  x.add(y)
+  x + y
 
-  x.substract(y).substract(z)
+  x - y - z
 
-  y.add(y)
+  z max x
 
   new Rational(3)
 
-
 }
-
 
 class Rational (x: Int, y: Int) {
   require(y != 0, "demoninator must be non zero")
@@ -23,28 +21,34 @@ class Rational (x: Int, y: Int) {
 
   def this(x: Int) = this(x, 1)
 
-  override def toString =
-    numerator + "/"  + denominator
-  def add(that: Rational): Rational =
-    new Rational(
-      (numerator * that.denominator) + (that.numerator * denominator),
-      denominator * that.denominator )
-
-  def neg: Rational =
-    new Rational(-numerator, denominator)
-
-  def substract(that: Rational): Rational =
-    add(that.neg)
-
   private def gcd(x: Int, y: Int): Int = {
     if (y == 0) x
     else gcd(y, x % y)
   }
 
-  def less(that: Rational): Boolean =
+  override def toString =
+    numerator + "/"  + denominator
+
+  def + (that: Rational): Rational =
+    new Rational(
+      (numerator * that.denominator) + (that.numerator * denominator),
+      denominator * that.denominator )
+
+  def unary_- : Rational =
+    new Rational(-numerator, denominator)
+
+  def - (that: Rational): Rational =
+    this + - that
+
+  def < (that: Rational): Boolean =
     numerator * that.denominator < that.numerator * denominator
 
+  def * (that: Rational): Rational =
+    new Rational(
+      numerator * that.numerator,
+      denominator * that.denominator)
+
   def max(that: Rational): Rational =
-    if (less(that)) that
+    if ( this < that) that
     else this
 }
