@@ -1,5 +1,6 @@
 package funsets
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import common._
 
 /**
@@ -22,13 +23,19 @@ object FunSets {
   /**
    * Returns the set of the one given element.
    */
-  def singletonSet(elem: Int): Set = ???
+  def singletonSet(elem: Int): Set =
+    (another: Int) =>
+      another == elem
+
 
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
-  def union(s: Set, t: Set): Set = ???
+  def union(s: Set, t: Set): Set = {
+    (another: Int) =>
+      contains(s, another) || contains(t, another)
+  }
 
   /**
    * Returns the intersection of the two given sets,
