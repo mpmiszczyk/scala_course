@@ -77,6 +77,7 @@ class FunSetSuite extends FunSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val all = union(s1, union(s2, s3))
   }
 
   /**
@@ -107,6 +108,39 @@ class FunSetSuite extends FunSuite {
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  test("intersect contains elements from both"){
+    new TestSets{
+    val s = intersect(s1, s1)
+    assert(contains(s, 1), "Intersetion with itself")
+    assert(!contains(s, 2), "but not with others")
+    assert(!contains(s, 3), "or even others")}
+  }
+
+  test("intersection of excluding sets") {
+    new TestSets {
+      val s = intersect(s1, s2)
+      assert(!contains(s,1), "does not contain first element")
+      assert(!contains(s,2), "or the second")
+    }
+  }
+
+  test("filter of greater that 2"){
+    new TestSets {
+      val s = filter(
+        all,
+        (x:Int) => x > 2
+      )
+      assert(contains(all,1), "one is in `all`")
+      assert(!contains(s,1),  "but it does not pass filter")
+
+      assert(contains(all,3), "three is in `all`")
+      assert(contains(s,3),   "and it passes filter")
+
+      assert(!contains(all,5), "five is not in all")
+      assert(!contains(s,5),   "an it will not be in filtered set")
     }
   }
 

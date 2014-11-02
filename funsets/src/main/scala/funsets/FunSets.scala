@@ -33,26 +33,32 @@ object FunSets {
    * the sets of all elements that are in either `s` or `t`.
    */
   def union(s: Set, t: Set): Set = {
-    (another: Int) =>
-      contains(s, another) || contains(t, another)
+    (element: Int) =>
+      contains(s, element) || contains(t, element)
   }
 
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
    */
-  def intersect(s: Set, t: Set): Set = ???
+  def intersect(s: Set, t: Set): Set =
+    (element: Int) =>
+      contains(s, element) && contains(t, element)
 
   /**
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
-  def diff(s: Set, t: Set): Set = ???
+  def diff(s: Set, t: Set): Set =
+    (element:Int) =>
+      contains(s, element) && ! contains(t, element)
 
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-  def filter(s: Set, p: Int => Boolean): Set = ???
+  def filter(s: Set, p: Int => Boolean): Set =
+    (element: Int) =>
+      contains(s, element) && p(element)
 
   /**
    * The bounds for `forall` and `exists` are +/- 1000.
