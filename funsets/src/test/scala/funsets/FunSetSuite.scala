@@ -21,9 +21,9 @@ class FunSetSuite extends FunSuite {
    * http://doc.scalatest.org/1.9.1/index.html#org.scalatest.FunSuite
    *
    * Operators
-   *  - test
-   *  - ignore
-   *  - pending
+   * - test
+   * - ignore
+   * - pending
    */
 
   /**
@@ -47,30 +47,30 @@ class FunSetSuite extends FunSuite {
     assert(1 + 2 === 3)
   }
 
-  
+
   import FunSets._
 
   test("contains is implemented") {
     assert(contains(x => true, 100))
   }
-  
+
   /**
    * When writing tests, one would often like to re-use certain values for multiple
    * tests. For instance, we would like to create an Int-set and have multiple test
    * about it.
-   * 
+   *
    * Instead of copy-pasting the code for creating the set into every test, we can
    * store it in the test class using a val:
-   * 
-   *   val s1 = singletonSet(1)
-   * 
+   *
+   * val s1 = singletonSet(1)
+   *
    * However, what happens if the method "singletonSet" has a bug and crashes? Then
    * the test methods are not even executed, because creating an instance of the
    * test class fails!
-   * 
+   *
    * Therefore, we put the shared values into a separate trait (traits are like
    * abstract classes), and create an instance inside each test method.
-   * 
+   *
    */
 
   trait TestSets {
@@ -83,12 +83,12 @@ class FunSetSuite extends FunSuite {
   /**
    * This test is currently disabled (by using "ignore") because the method
    * "singletonSet" is not yet implemented and the test would fail.
-   * 
+   *
    * Once you finish your implementation of "singletonSet", exchange the
    * function "ignore" by "test".
    */
   test("singletonSet(1) contains 1") {
-    
+
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
      * to the values "s1" to "s3". 
@@ -111,36 +111,59 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  test("intersect contains elements from both"){
-    new TestSets{
-    val s = intersect(s1, s1)
-    assert(contains(s, 1), "Intersetion with itself")
-    assert(!contains(s, 2), "but not with others")
-    assert(!contains(s, 3), "or even others")}
+  test("intersect contains elements from both") {
+    new TestSets {
+      val s = intersect(s1, s1)
+      assert(contains(s, 1), "Intersetion with itself")
+      assert(!contains(s, 2), "but not with others")
+      assert(!contains(s, 3), "or even others")
+    }
   }
 
   test("intersection of excluding sets") {
     new TestSets {
       val s = intersect(s1, s2)
-      assert(!contains(s,1), "does not contain first element")
-      assert(!contains(s,2), "or the second")
+      assert(!contains(s, 1), "does not contain first element")
+      assert(!contains(s, 2), "or the second")
     }
   }
 
-  test("filter of greater that 2"){
+  test("filter of greater that 2") {
     new TestSets {
       val s = filter(
         all,
-        (x:Int) => x > 2
+        (x: Int) => x > 2
       )
-      assert(contains(all,1), "one is in `all`")
-      assert(!contains(s,1),  "but it does not pass filter")
+      assert(contains(all, 1), "one is in `all`")
+      assert(!contains(s, 1), "but it does not pass filter")
 
-      assert(contains(all,3), "three is in `all`")
-      assert(contains(s,3),   "and it passes filter")
+      assert(contains(all, 3), "three is in `all`")
+      assert(contains(s, 3), "and it passes filter")
 
-      assert(!contains(all,5), "five is not in all")
-      assert(!contains(s,5),   "an it will not be in filtered set")
+      assert(!contains(all, 5), "five is not in all")
+      assert(!contains(s, 5), "an it will not be in filtered set")
+    }
+  }
+
+  test("forall on all elements") {
+    new TestSets {
+      assert(forall(all, (x: Int) => x < 5), "all elements are smaller then 5")
+      assert(!forall(all, (x: Int) => x < 3), "but not than 3")
+    }
+  }
+
+  test("exists on set `{1, 2, 3}`"){
+    new TestSets {
+      assert(!exists(all, (x: Int) => x > 5), "none of elements is greater than five")
+      assert(exists(all, (x: Int) => x == 1), "but one of them is equal to two")
+    }
+  }
+
+  test("map increase by one"){
+    new TestSets {
+      val s = map(s1, (x: Int) => x+1)
+      assert(contains(s, 2), "new set contains increased value")
+      assert(!contains(s, 1), "but not original one")
     }
   }
 
